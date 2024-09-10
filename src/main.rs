@@ -16,7 +16,9 @@ pub extern "C" fn _start() -> ! {
 
     println!("I didnt crash :D");
 
-    loop {}
+    loop {
+        x86_64::instructions::hlt()
+    }
 }
 
 // Called on panic
@@ -24,5 +26,7 @@ pub extern "C" fn _start() -> ! {
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
 
-    loop {}
+    loop {
+        x86_64::instructions::hlt();
+    }
 }
