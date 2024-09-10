@@ -7,13 +7,21 @@ use core::panic::PanicInfo;
 
 mod vga_buffer;
 
-static HELLO: &[u8] = b"Hello, World! (why am i making my own OS???)";
-
 // No mangle so no random function name stuff
 #[no_mangle]
 // ! Means its not allowed to return
 pub extern "C" fn _start() -> ! {
-    vga_buffer::print_something();
+    use core::fmt::Write;
+
+    vga_buffer::WRITER.lock().write_string("Hello, World!\n");
+    write!(
+        vga_buffer::WRITER.lock(),
+        "Here is some stuff for you: {} <= {} == {} ",
+        1,
+        -0.5,
+        false
+    )
+    .unwrap();
 
     loop {}
 }
