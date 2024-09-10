@@ -16,7 +16,7 @@ pub extern "C" fn _start() -> ! {
     println!("Hello, World!");
     write!(
         vga_buffer::WRITER.lock(),
-        "Here is some stuff for you: {} <= {} == {} ",
+        "Here is some stuff for you: {} <= {} == {}\n",
         1,
         -0.5,
         false
@@ -28,6 +28,8 @@ pub extern "C" fn _start() -> ! {
 
 // Called on panic
 #[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
+fn panic(info: &PanicInfo) -> ! {
+    println!("{}", info);
+
     loop {}
 }
