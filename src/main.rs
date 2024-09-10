@@ -14,6 +14,8 @@ pub extern "C" fn _start() -> ! {
 
     cat_os::init();
 
+    unsafe { *(0xdeadbeaf as *mut u8) = 123 }
+
     println!("I didnt crash :D");
 
     loop {
