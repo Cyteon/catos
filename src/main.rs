@@ -13,7 +13,7 @@ mod vga_buffer;
 pub extern "C" fn _start() -> ! {
     use core::fmt::Write;
 
-    vga_buffer::WRITER.lock().write_string("Hello, World!\n");
+    println!("Hello, World!");
     write!(
         vga_buffer::WRITER.lock(),
         "Here is some stuff for you: {} <= {} == {} ",
