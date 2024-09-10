@@ -14,10 +14,7 @@ pub extern "C" fn _start() -> ! {
 
     cat_os::init();
 
-    // Test interrupts
-    x86_64::instructions::interrupts::int3();
-
-    println!("Here is some stuff for you: {} <= {} == {}", 1, -0.5, false);
+    println!("I didnt crash :D");
 
     loop {}
 }
