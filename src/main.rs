@@ -1,8 +1,6 @@
-
-
 // Dont link standard library
 #![no_std]
-// Not use normal entry point
+// Dont use normal entry point
 #![no_main]
 
 use core::panic::PanicInfo;
