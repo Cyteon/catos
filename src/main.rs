@@ -10,13 +10,13 @@ use core::panic::PanicInfo;
 #[no_mangle]
 // ! Means its not allowed to return
 pub extern "C" fn _start() -> ! {
-    println!("Hello, World!");
+    println!("                  Loading CatOS                   ");
+    println!("                    By Cyteon                     ");
+    println!("      License: GNU General Public License 3.0     ");
+    println!("          https://github.com/cyteon/catos         ");
+    println!("\nBooting System...");
 
     cat_os::init();
-
-    unsafe { *(0xdeadbeaf as *mut u8) = 123 }
-
-    println!("I didnt crash :D");
 
     loop {
         x86_64::instructions::hlt()
