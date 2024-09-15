@@ -3,13 +3,16 @@
 // Dont use normal entry point
 #![no_main]
 
-use cat_os::println;
+use bootloader::{entry_point, BootInfo};
+use cat_os::{memory::active_level_4_table, println};
 use core::panic::PanicInfo;
+use x86_64::{structures::paging::PageTable, VirtAddr};
 
-// No mangle so no random function name stuff
-#[no_mangle]
+// Set entry point
+entry_point!(kernel_main);
+
 // ! Means its not allowed to return
-pub extern "C" fn _start() -> ! {
+fn kernel_main(boot_info: &'static BootInfo) -> ! {
     println!("                  Loading CatOS                   ");
     println!("                    By Cyteon                     ");
     println!("      License: GNU General Public License 3.0     ");
@@ -17,6 +20,35 @@ pub extern "C" fn _start() -> ! {
     println!("\nBooting System...");
 
     cat_os::init();
+
+    let phys_mem_offset = VirtAddr::new(boot_info.physical_memory_offset);
+    let l4_table = unsafe { active_level_4_table(phys_mem_offset) };
+
+    for (i, entry) in l4_table.iter().enumerate() {
+        if !entry.is_unused() {
+            println!("L4 Entry {}: {:?}", i, entry);
+
+            let phys = entry.frame().unwrap().start_address();
+            let virt = phys.as_u64() + boot_info.physical_memory_offset;
+            let ptr = VirtAddr::new(virt).as_mut_ptr();
+
+            let l3_table: &PageTable = unsafe { &*ptr };
+
+            for (i, entry) in l3_table.iter().enumerate() {
+                if !entry.is_unused() {
+                    println!("L3 Entry {}: {:?}", i, entry);
+                }
+            }
+        }
+    }
+
+    println!("\n");
+    println!("                  Loading CatOS                   ");
+    println!("                    By Cyteon                     ");
+    println!("      License: GNU General Public License 3.0     ");
+    println!("          https://github.com/cyteon/catos         ");
+    println!("  That message probably disapeared so here it is  ");
+    println!("\n");
 
     loop {
         x86_64::instructions::hlt()
