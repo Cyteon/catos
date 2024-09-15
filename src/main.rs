@@ -42,14 +42,6 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
         }
     }
 
-    println!("\n");
-    println!("                  Loading CatOS                   ");
-    println!("                    By Cyteon                     ");
-    println!("      License: GNU General Public License 3.0     ");
-    println!("          https://github.com/cyteon/catos         ");
-    println!("  That message probably disapeared so here it is  ");
-    println!("\n");
-
     loop {
         x86_64::instructions::hlt()
     }
