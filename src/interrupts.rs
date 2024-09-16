@@ -1,3 +1,5 @@
+use core::char::ToLowercase;
+
 use crate::{gdt, print, println};
 use lazy_static::lazy_static;
 use pc_keyboard::KeyCode;
@@ -114,6 +116,10 @@ extern "x86-interrupt" fn keyboard_interrupt_handler(_stack_frame: InterruptStac
                     KeyCode::LShift => {}
                     KeyCode::RShift => {}
                     KeyCode::CapsLock => {}
+                    KeyCode::LControl => {}
+                    KeyCode::RControl => {}
+                    KeyCode::LAlt => {}
+                    KeyCode::RAltGr => {}
                     _ => print!("{:?}", key),
                 },
             }
