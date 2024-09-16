@@ -42,8 +42,8 @@ struct ScreenChar {
     color_code: ColorCode,
 }
 
-const BUFFER_HEIGHT: usize = 25;
-const BUFFER_WIDTH: usize = 80;
+pub const BUFFER_HEIGHT: usize = 25;
+pub const BUFFER_WIDTH: usize = 80;
 
 #[repr(transparent)]
 struct Buffer {
@@ -134,6 +134,15 @@ lazy_static! {
 #[macro_export]
 macro_rules! print {
     ($($arg:tt)*) => ($crate::vga_buffer::_print(format_args!($($arg)*)));
+}
+
+#[macro_export]
+macro_rules! clear {
+    () => {
+        for _ in 0..$crate::vga_buffer::BUFFER_HEIGHT {
+            $crate::print!("\n");
+        }
+    };
 }
 
 #[macro_export]

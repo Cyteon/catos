@@ -4,7 +4,7 @@
 #![no_main]
 
 use bootloader::{entry_point, BootInfo};
-use cat_os::{memory::active_level_4_table, println};
+use cat_os::{clear, memory::active_level_4_table, println};
 use core::panic::PanicInfo;
 use x86_64::{structures::paging::PageTable, VirtAddr};
 
@@ -13,6 +13,9 @@ entry_point!(kernel_main);
 
 // ! Means its not allowed to return
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
+    println!("You should'nt see this");
+    clear!();
+
     println!("                  Loading CatOS                   ");
     println!("                    By Cyteon                     ");
     println!("      License: GNU General Public License 3.0     ");
