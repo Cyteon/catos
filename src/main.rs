@@ -4,23 +4,15 @@
 #![no_main]
 
 use bootloader::{entry_point, BootInfo};
-use cat_os::{
-    clear,
-    memory::{self, translate_addr},
-    println,
-};
+use cat_os::{clear, println, test};
 use core::panic::PanicInfo;
-use x86_64::{
-    structures::paging::{PageTable, Translate},
-    VirtAddr,
-};
 
 // Set entry point
 entry_point!(kernel_main);
 
 // ! Means its not allowed to return
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
-    println!("You should'nt see this");
+    println!("You should not see this");
     clear!();
 
     println!("                  Loading CatOS                   ");
@@ -31,24 +23,7 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
 
     cat_os::init();
 
-    let phys_mem_offset = VirtAddr::new(boot_info.physical_memory_offset);
-
-    // Initialize mapper
-    let mapper = unsafe { memory::init(phys_mem_offset) };
-
-    println!("Testing Memory Pages");
-    let addresses = [
-        // VGA BUFFER
-        0xb8000,
-        boot_info.physical_memory_offset,
-    ];
-
-    for &addr in &addresses {
-        let virt = VirtAddr::new(addr);
-        let phys = mapper.translate_addr(virt);
-
-        println!("{:?} -> {:?}", virt, phys)
-    }
+    test::test(boot_info);
 
     loop {
         x86_64::instructions::hlt()

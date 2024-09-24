@@ -1,5 +1,7 @@
 use x86_64::{
-    structures::paging::{OffsetPageTable, PageTable},
+    structures::paging::{
+        FrameAllocator, Mapper, OffsetPageTable, Page, PageTable, PhysFrame, Size4KiB,
+    },
     PhysAddr, VirtAddr,
 };
 
@@ -56,4 +58,27 @@ fn translate_addr_inner(addr: VirtAddr, physical_memory_offset: VirtAddr) -> Opt
     }
 
     Some(frame.start_address() + u64::from(addr.page_offset()))
+}
+
+pub fn create_example_mapping(
+    page: Page,
+    mapper: &mut OffsetPageTable,
+    frame_allocator: &mut impl FrameAllocator<Size4KiB>,
+) {
+    use x86_64::structures::paging::PageTableFlags as Flags;
+
+    let frame = PhysFrame::containing_address(PhysAddr::new(0xb8000));
+    let flags = Flags::PRESENT | Flags::WRITABLE;
+
+    let map_to_result = unsafe { mapper.map_to(page, frame, flags, frame_allocator) };
+
+    map_to_result.expect("map_to failed").flush();
+}
+
+pub struct EmptyFrameAllocator;
+
+unsafe impl FrameAllocator<Size4KiB> for EmptyFrameAllocator {
+    fn allocate_frame(&mut self) -> Option<PhysFrame> {
+        None
+    }
 }
