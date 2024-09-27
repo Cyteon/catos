@@ -132,17 +132,17 @@ lazy_static! {
 }
 
 #[macro_export]
-macro_rules! print {
-    ($($arg:tt)*) => ($crate::vga_buffer::_print(format_args!($($arg)*)));
-}
-
-#[macro_export]
 macro_rules! clear {
     () => {
-        for _ in 0..$crate::vga_buffer::BUFFER_HEIGHT {
+        for _ in 0..$crate::drivers::vga_buffer::BUFFER_HEIGHT {
             $crate::print!("\n");
         }
     };
+}
+
+#[macro_export]
+macro_rules! print {
+    ($($arg:tt)*) => ($crate::drivers::vga_buffer::_print(format_args!($($arg)*)));
 }
 
 #[macro_export]

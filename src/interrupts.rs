@@ -1,5 +1,3 @@
-use core::char::ToLowercase;
-
 use crate::{gdt, print, println};
 use lazy_static::lazy_static;
 use pc_keyboard::KeyCode;
