@@ -12,6 +12,10 @@ entry_point!(kernel_main);
 
 // ! Means its not allowed to return
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
+    use cat_os::memory::BootInfoFrameAllocator;
+
+    let mut frame_allocator = unsafe { BootInfoFrameAllocator::init(&boot_info.memory_map) };
+
     println!("You should not see this");
     clear!();
 
