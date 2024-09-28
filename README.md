@@ -1,3 +1,6 @@
+# An random OS im making in rust
+> Based on https://os.phil-opp.com/
+
 ## Running it
 
 #### Prerequisites
