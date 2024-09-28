@@ -66,6 +66,7 @@ fn panic(info: &PanicInfo) -> ! {
     cat_os::test_panic_handler(info)
 }
 
+// TODO: Fix, this wont run
 #[test_case]
 fn trivial_assertion() {
     assert_eq!(1, 1);

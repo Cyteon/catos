@@ -1,4 +1,4 @@
-#![no_main]
+#![cfg_attr(test, no_main)]
 // Dont use standard lib
 #![no_std]
 // Enable x86-interrupt
@@ -8,9 +8,9 @@
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-use core::panic::PanicInfo;
-
 extern crate alloc;
+
+use core::panic::PanicInfo;
 
 pub mod drivers;
 
@@ -71,9 +71,25 @@ pub fn test_runner(tests: &[&dyn Testable]) {
 }
 
 pub fn test_panic_handler(info: &PanicInfo) -> ! {
-    serial_println!("[failed]");
+    serial_println!("[FAILED]");
     serial_println!("Error: {}", info);
     exit_qemu(QemuExitCode::Failed);
+
+    loop {
+        x86_64::instructions::hlt();
+    }
+}
+
+#[cfg(test)]
+use bootloader::{entry_point, BootInfo};
+
+#[cfg(test)]
+entry_point!(test_kernel_main);
+
+#[cfg(test)]
+fn test_kernel_main(_: &'static BootInfo) -> ! {
+    init();
+    test_main();
 
     loop {
         x86_64::instructions::hlt();
@@ -86,4 +102,9 @@ pub fn test_panic_handler(info: &PanicInfo) -> ! {
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     test_panic_handler(info)
+}
+
+#[test_case]
+fn trivial_assertion() {
+    assert_eq!(1, 1);
 }

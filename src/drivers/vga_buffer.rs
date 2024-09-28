@@ -160,3 +160,28 @@ pub fn _print(args: fmt::Arguments) {
         WRITER.lock().write_fmt(args).expect("Printing Failed");
     })
 }
+
+// Tests
+
+#[test_case]
+fn test_simple_println() {
+    println!("Println simple test");
+}
+
+#[test_case]
+fn test_many_println() {
+    for i in 1..200 {
+        println!("Hello there x{}", i);
+    }
+}
+
+#[test_case]
+fn test_println_output() {
+    let s = "Hello, Test!";
+    println!("{}", s);
+
+    for (i, c) in s.chars().enumerate() {
+        let screen_char = WRITER.lock().buffer.chars[BUFFER_HEIGHT - 2][i].read();
+        assert_eq!(char::from(screen_char.ascii_character), c);
+    }
+}
