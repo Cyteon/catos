@@ -1,5 +1,5 @@
 # CatOS
-A small kernel AMD64 kernel written in Rust.
+A small AMD64 kernel written in Rust.
 
 > [!NOTE] 
 > This project is based off of https://os.phil-opp.com/, and as such, some aspects of the projects will be similar to it. 
