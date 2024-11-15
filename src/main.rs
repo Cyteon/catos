@@ -10,7 +10,7 @@
 extern crate alloc;
 
 use bootloader::{entry_point, BootInfo};
-use cat_os::{clear, println, serial_print, serial_println};
+use cat_os::{clear, println};
 use core::panic::PanicInfo;
 
 // Set entry point
