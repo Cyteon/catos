@@ -1,3 +1,5 @@
+use core::arch::asm;
+
 use crate::{gdt, print, println};
 use lazy_static::lazy_static;
 use pc_keyboard::KeyCode;
@@ -49,7 +51,7 @@ lazy_static! {
 }
 
 pub fn init_idt() {
-    IDT.load()
+    IDT.load();
 }
 
 extern "x86-interrupt" fn breakpoint_handler(stack_frame: InterruptStackFrame) {
