@@ -31,5 +31,3 @@ fn panic(info: &PanicInfo) -> ! {
 fn test_println() {
     println!("Println simple test");
 }
-
-// TODO: Fix, this file wont run when doing cargo test?

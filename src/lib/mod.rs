@@ -102,8 +102,3 @@ fn test_kernel_main(_: &'static BootInfo) -> ! {
 fn panic(info: &PanicInfo) -> ! {
     test_panic_handler(info)
 }
-
-#[test_case]
-fn trivial_assertion() {
-    assert_eq!(1, 1);
-}

@@ -31,5 +31,3 @@ fn should_fail() {
     serial_println!("should_panic::should_fail...\t");
     assert_eq!(0, 1);
 }
-
-// TODO: Fix, this file wont run when doing cargo test?
